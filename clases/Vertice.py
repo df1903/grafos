@@ -27,11 +27,4 @@ class Vertice:
 
     """————————————————————————————————————————————METHODS———————————————————————————————————————————————————————"""
 
-    # to string
-    # def toString(self):
-    #     s = '▌▓▒░    | dato ' + str(self.dato()) + \
-    #         ' | var2: ' + str(self.var2) + \
-    #         ' | var3: ' + str(self.var3) + \
-    #         ' | var4: ' + str(self.var4) + \
-    #         ' | var5: ' + str(self.var5)
-    #     return s
+
