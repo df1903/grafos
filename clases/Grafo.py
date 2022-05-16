@@ -120,3 +120,52 @@ class Grafo:
             self.listaAristas[iter] = aux
         return self.ordenar(entorno, iter + 1)
 
+    # 2)degree of the vertices
+    # def gradoVertices(self, entorno):
+    #     if entorno == (len(self.listaVertices)):
+    #         return True
+    #     self.gradoVertice(self.listaVertices[entorno], 0, 0)
+    #     return self.gradoVertices01(entorno+1)
+    #
+    # def gradoVertice(self, vertice, entorno, gradoVertice):
+    #     if entorno == (len(self.listaAristas)):
+    #         print("El grado del vertice {} es {}".format(vertice.getDato(), gradoVertice))
+    #         return
+    #     if vertice.getDato() == self.listaAristas[entorno].getOrigen() or vertice.getDato() == self.listaAristas[entorno].getDestino():
+    #         gradoVertice += 1
+    #     self.gradoVertice(vertice, entorno+1, gradoVertice)
+
+    def gradoVertices(self, entorno, listaGrados):
+        if entorno == 0:
+            for i in range(len(self.listaVertices)):
+                listaGrados.append(0)
+        if entorno == (len(self.listaAristas)):
+            return listaGrados
+        for i in range(len(self.listaVertices)):
+            if self.listaVertices[i].getDato() == self.listaAristas[entorno].getOrigen() or self.listaVertices[i].getDato() == self.listaAristas[entorno].getDestino():
+                listaGrados[i] += 1
+        return self.gradoVertices(entorno+1,listaGrados)
+
+    def mostrarGradoVertices(self):
+        print("Grado de los vertices")
+        listaGrados = self.gradoVertices(0,[])
+        for i in range(len(self.listaVertices)):
+            print("{} Grado({})".format(self.listaVertices[i].getDato(), listaGrados[i]))
+
+    # 3)vertex highest degree
+    def verticeMayorGrado(self):
+        listaGrados = self.gradoVertices(0,[])
+        vertice = [0,0]
+        for i in range(len(self.listaVertices)):
+            if listaGrados[i] > vertice[1]:
+                vertice[0] = i
+                vertice[1] = listaGrados[i]
+        print("{} con grado de {} es el vertice con mayor grado".format(self.listaVertices[vertice[0]].getDato(),vertice[1]))
+
+    # 4)average adjacencies list
+    def promedioListaAdyacencias(self):
+        adyacencias = 0
+        for i in range(len(self.listaVertices)):
+            adyacencias += len(self.listaVertices[i].getListaAdyacentes())
+        adyacencias = adyacencias/len(self.listaVertices)
+        print("El promedio de la lista de adyacencias es: ",adyacencias)
