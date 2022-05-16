@@ -1,6 +1,8 @@
 """————————————————
    Grafo class
 ———————————————————"""
+import lista as lista
+
 from clases.Arista import *
 from clases.Vertice import *
 
@@ -101,3 +103,20 @@ class Grafo:
             if self.listaVertices[i].getListaAdyacentes():
                 return print("Fuente --> {0}".format(self.listaVertices[i].getDato()))
         return print("El grafo no tiene Fuentes")
+
+    # 1)smallest to largest edges
+    def minMaxAristas(self, entorno):
+        if entorno == (len(self.listaAristas)):
+            return lista
+        self.ordenar(entorno, entorno + 1)
+        return self.minMaxAristas(entorno + 1)
+
+    def ordenar(self, entorno, iter):
+        if iter == (len(self.listaAristas)):
+            return
+        if self.listaAristas[entorno].getPeso() > self.listaAristas[iter].getPeso():
+            aux = self.listaAristas[entorno]
+            self.listaAristas[entorno] = self.listaAristas[iter]
+            self.listaAristas[iter] = aux
+        return self.ordenar(entorno, iter + 1)
+
