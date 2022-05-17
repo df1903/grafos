@@ -1,7 +1,6 @@
 """————————————————
    Grafo class
 ———————————————————"""
-import lista as lista
 
 from clases.Arista import *
 from clases.Vertice import *
@@ -107,7 +106,7 @@ class Grafo:
     # 1)smallest to largest edges
     def minMaxAristas(self, entorno):
         if entorno == (len(self.listaAristas)):
-            return lista
+            return
         self.ordenar(entorno, entorno + 1)
         return self.minMaxAristas(entorno + 1)
 
@@ -169,4 +168,59 @@ class Grafo:
             adyacencias += len(self.listaVertices[i].getListaAdyacentes())
         adyacencias = adyacencias/len(self.listaVertices)
         print("El promedio de la lista de adyacencias es: ",adyacencias)
-        print("xd")
+
+    # 5)Show the wells
+    def pozos(self,entorno,listaPozos):
+        if entorno == 0:
+            for i in range(len(self.listaVertices)):
+                listaPozos.append(True)
+        if entorno == (len(self.listaAristas)):
+            return listaPozos
+        for i in range(len(self.listaVertices)):
+            if self.listaVertices[i].getDato() == self.listaAristas[entorno].getOrigen():
+                listaPozos[i] = False
+        return self.pozos(entorno+1, listaPozos)
+
+    def mostrarPozos(self):
+        print("Pozos")
+        listaPozos = self.pozos(0,[])
+        for i in range(len(self.listaVertices)):
+            if listaPozos[i]:
+                print(self.listaVertices[i].getDato())
+
+    # 6)Show the sources
+    def fuentes(self,entorno,listaFuentes):
+        if entorno == 0:
+            for i in range(len(self.listaVertices)):
+                listaFuentes.append(True)
+        if entorno == (len(self.listaAristas)):
+            return listaFuentes
+        for i in range(len(self.listaVertices)):
+            if self.listaVertices[i].getDato() == self.listaAristas[entorno].getDestino():
+                listaFuentes[i] = False
+        return self.fuentes(entorno+1, listaFuentes)
+
+    def mostrarFuentes(self):
+        print("Fuentes")
+        listaFuentes = self.fuentes(0,[])
+        for i in range(len(self.listaVertices)):
+            if listaFuentes[i]:
+                print(self.listaVertices[i].getDato())
+
+    # 7)average edge weight
+    def promedioPesoAristas(self):
+        promedio = 0
+        for i in range(len(self.listaAristas)):
+            promedio += self.listaAristas[i].getPeso()
+        promedio = promedio / len(self.listaAristas)
+        print("El promedio del peso de las aristas es: ",promedio)
+
+    # 8)top artist
+    def aristaMayorPeso(self):
+        aristaMayor= [0]
+        for i in range(len(self.listaAristas)):
+            if aristaMayor < self.listaAristas[i].getPeso():
+               aristaMayor = [self.listaAristas[i]]
+            elif aristaMayor == self.listaAristas[i].getPeso():
+                aristaMayor.append([self.listaAristas[i]])
+    #fala mostra
