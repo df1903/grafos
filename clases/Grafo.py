@@ -169,3 +169,4 @@ class Grafo:
             adyacencias += len(self.listaVertices[i].getListaAdyacentes())
         adyacencias = adyacencias/len(self.listaVertices)
         print("El promedio de la lista de adyacencias es: ",adyacencias)
+        print("xd")
