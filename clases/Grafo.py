@@ -1,7 +1,7 @@
 """————————————————
    Grafo class
 ———————————————————"""
-
+import sys
 from clases.Arista import *
 from clases.Vertice import *
 
@@ -217,10 +217,92 @@ class Grafo:
 
     # 8)top artist
     def aristaMayorPeso(self):
-        aristaMayor= [0]
+        aristaMayor= [Arista(0,0,sys.maxint)]
         for i in range(len(self.listaAristas)):
-            if aristaMayor < self.listaAristas[i].getPeso():
+            if aristaMayor[len(aristaMayor)-1].getPeso() < self.listaAristas[i].getPeso():
                aristaMayor = [self.listaAristas[i]]
-            elif aristaMayor == self.listaAristas[i].getPeso():
-                aristaMayor.append([self.listaAristas[i]])
-    #fala mostra
+            elif aristaMayor[len(aristaMayor)-1].getPeso() == self.listaAristas[i].getPeso():
+                aristaMayor.append(self.listaAristas[i])
+
+        if len(aristaMayor) == 1:
+            print("Arista mayor peso")
+            print("{}--> {} peso {}".format(aristaMayor[0].getOrigen(), aristaMayor[0].getDestino(), aristaMayor[0].getPeso()))
+
+        else:
+            print("Las aristas de mayor peso")
+            for i in range(len(aristaMayor)):
+                print ("{}--> {} peso {}".format(aristaMayor[i].getOrigen(), aristaMayor[i].getDestino() , aristaMayor[i].getPeso()))
+
+    # 9)
+    def aristaMenorPeso(self):
+        aristaMenor= [Arista(0,0,sys.maxsize)]
+        for i in range(len(self.listaAristas)):
+            if aristaMenor[len(aristaMenor)-1].getPeso() > self.listaAristas[i].getPeso():
+               aristaMenor = [self.listaAristas[i]]
+            elif aristaMenor[len(aristaMenor)-1].getPeso() == self.listaAristas[i].getPeso():
+                aristaMenor.append(self.listaAristas[i])
+
+        if len(aristaMenor) == 1:
+            print("Arista menor peso")
+            print("{}--> {} peso {}".format(aristaMenor[0].getOrigen(), aristaMenor[0].getDestino(), aristaMenor[0].getPeso()))
+
+        else:
+            print("Las aristas de menor peso")
+            for i in range(len(aristaMenor)):
+                print ("{}--> {} peso {}".format(aristaMenor[i].getOrigen(), aristaMenor[i].getDestino() , aristaMenor[i].getPeso()))
+
+    # 10)
+    def verticeAdyacente(self, vertice):
+        print("Ahora")
+
+    # 11)
+    def listaAdyacencias(self):
+        lista=[]
+        for i in range(len(self.listaVertices)):
+            for j in range(len(self.listaVertices[i].getListaAdyacentes())):
+                lista.append(self.listaVertices[i].getListaAdyacentes()[j])
+        return lista
+
+    def mostrarListaAdyacentes(self):
+        lista = self.listaAdyacencias()
+        for i in range(len(lista)):
+            print(lista[i])
+    # a)
+    def verticesNoComtempados(self, entorno, listaVertices, listaAdyacencias):
+        if entorno == 0:
+            listaAdyacencias = self.listaAdyacencias()
+            for i in range(len(self.listaVertices)):
+                listaVertices.append(True)
+        if entorno == (len(self.listaVertices)):
+            return listaVertices
+        for i in range(len(listaAdyacencias)):
+            if self.listaVertices[entorno].getDato() == listaAdyacencias[i]:
+                listaVertices[entorno] = False
+        return self.verticesNoComtempados(entorno+1, listaVertices, listaAdyacencias)
+
+    def mostrarVerticesNoComtempados(self):
+        listaVertices =self.verticesNoComtempados(0, [], [])
+        for i in range(len(listaVertices)):
+            if listaVertices[i]:
+                print(self.listaVertices[i].getDato())
+
+    # b)
+    def adyacenciaMasComun(self, entorno, listaVertices, listaAdyacencias):
+        if entorno == 0:
+            listaAdyacencias = self.listaAdyacencias()
+            for i in range(len(self.listaVertices)):
+                listaVertices.append(0)
+        if entorno == (len(self.listaVertices)):
+            return listaVertices
+        for i in range(len(listaAdyacencias)):
+            if self.listaVertices[entorno].getDato() == listaAdyacencias[i]:
+                listaVertices[entorno] += 1
+        return self.adyacenciaMasComun(entorno+1, listaVertices, listaAdyacencias)
+
+    def mostarAdyacenciaMasComun(self):
+        listaVertices = self.adyacenciaMasComun(0, [], [])
+        comun = 0
+        for i in range(len(listaVertices)):
+            if listaVertices[i] > comun:
+                comun = i
+        print("La adyacencia mas comun es {} con {} ".format(self.listaVertices[comun].getDato(), listaVertices[comun]))
