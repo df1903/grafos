@@ -44,9 +44,9 @@ class Grafo:
 
     # show Vertices
     def mostrarVertices(self):
-        print("VERTICES\n")
+        print("                                    VERTICES")
         for i in range(len(self.listaVertices)):
-            print(i, "- {0}".format(self.listaVertices[i].getDato()))
+            print(i+1, "- {0}".format(self.listaVertices[i].getDato()))
         # return False
 
     # get Vertex
@@ -75,6 +75,7 @@ class Grafo:
 
     # show edges
     def mostrarAristas(self):
+        print("                                    ARISTAS")
         for i in range(len(self.listaAristas)):
             print("| Origen: {0}  →  Destino: {1}  |  Peso: {2} |"
                   .format(self.listaAristas[i].getOrigen(),
@@ -83,10 +84,11 @@ class Grafo:
 
     # show adjacencies
     def mostrarAdyacencias(self):
+        print("                                    ADYACENCIAS")
         for i in range(len(self.listaVertices)):
             print("| vértice: {0} |  Adyacencias: {1} |"
                   .format(self.listaVertices[i].getDato(),
-                          self.listaVertices[i].getListaAdyacencias()))
+                          self.listaVertices[i].getListaAdyacentes()))
 
     """—————————————————————————————————————————————FUNCTIONS————————————————————————————————————————————————————————"""
 
@@ -108,17 +110,34 @@ class Grafo:
     def minMaxAristas(self, entorno):
         if entorno == (len(self.listaAristas)):
             return
-        self.ordenar(entorno, entorno + 1)
+        self.ordenarMinMax(entorno, entorno + 1)
         return self.minMaxAristas(entorno + 1)
 
-    def ordenar(self, entorno, iter):
+    def ordenarMinMax(self, entorno, iter):
         if iter == (len(self.listaAristas)):
             return
         if self.listaAristas[entorno].getPeso() > self.listaAristas[iter].getPeso():
             aux = self.listaAristas[entorno]
             self.listaAristas[entorno] = self.listaAristas[iter]
             self.listaAristas[iter] = aux
-        return self.ordenar(entorno, iter + 1)
+        return self.ordenarMinMax(entorno, iter + 1)
+
+    # 1.1)largest to smallest edges
+    def maxMinAristas(self, entorno):
+        if entorno == (len(self.listaAristas)):
+            return
+        self.ordenarMaxMin(entorno, entorno + 1)
+        return self.maxMinAristas(entorno + 1)
+
+    def ordenarMaxMin(self, entorno, iter):
+        if iter == (len(self.listaAristas)):
+            return
+        if self.listaAristas[entorno].getPeso() < self.listaAristas[iter].getPeso():
+            aux = self.listaAristas[entorno]
+            self.listaAristas[entorno] = self.listaAristas[iter]
+            self.listaAristas[iter] = aux
+        return self.ordenarMaxMin(entorno, iter + 1)
+
 
     # 2)degree of the vertices
     # def gradoVertices(self, entorno):
@@ -147,7 +166,7 @@ class Grafo:
         return self.gradoVertices(entorno+1,listaGrados)
 
     def mostrarGradoVertices(self):
-        print("Grado de los vertices")
+        print("                                 GRADOS DE LOS VERTICES")
         listaGrados = self.gradoVertices(0,[])
         for i in range(len(self.listaVertices)):
             print("{} Grado({})".format(self.listaVertices[i].getDato(), listaGrados[i]))
@@ -183,7 +202,7 @@ class Grafo:
         return self.pozos(entorno+1, listaPozos)
 
     def mostrarPozos(self):
-        print("Pozos")
+        print("                                    POZOS")
         listaPozos = self.pozos(0,[])
         for i in range(len(self.listaVertices)):
             if listaPozos[i]:
@@ -202,7 +221,7 @@ class Grafo:
         return self.fuentes(entorno+1, listaFuentes)
 
     def mostrarFuentes(self):
-        print("Fuentes")
+        print("                                   FUENTES")
         listaFuentes = self.fuentes(0,[])
         for i in range(len(self.listaVertices)):
             if listaFuentes[i]:
@@ -218,7 +237,7 @@ class Grafo:
 
     # 8)top artist
     def aristaMayorPeso(self):
-        aristaMayor= [Arista(0,0,sys.maxint)]
+        aristaMayor= [Arista(0,0,0)]
         for i in range(len(self.listaAristas)):
             if aristaMayor[len(aristaMayor)-1].getPeso() < self.listaAristas[i].getPeso():
                aristaMayor = [self.listaAristas[i]]
@@ -226,11 +245,10 @@ class Grafo:
                 aristaMayor.append(self.listaAristas[i])
 
         if len(aristaMayor) == 1:
-            print("Arista mayor peso")
-            print("{}--> {} peso {}".format(aristaMayor[0].getOrigen(), aristaMayor[0].getDestino(), aristaMayor[0].getPeso()))
+            print("Arista mayor peso: {}--> {} peso {}".format(aristaMayor[0].getOrigen(), aristaMayor[0].getDestino(), aristaMayor[0].getPeso()))
 
         else:
-            print("Las aristas de mayor peso")
+            print("Las aristas de mayor peso son:")
             for i in range(len(aristaMayor)):
                 print ("{}--> {} peso {}".format(aristaMayor[i].getOrigen(), aristaMayor[i].getDestino() , aristaMayor[i].getPeso()))
 
@@ -244,16 +262,15 @@ class Grafo:
                 aristaMenor.append(self.listaAristas[i])
 
         if len(aristaMenor) == 1:
-            print("Arista menor peso")
-            print("{}--> {} peso {}".format(aristaMenor[0].getOrigen(), aristaMenor[0].getDestino(), aristaMenor[0].getPeso()))
+            print("Arista menor peso: {}--> {} peso {}".format(aristaMenor[0].getOrigen(), aristaMenor[0].getDestino(), aristaMenor[0].getPeso()))
 
         else:
-            print("Las aristas de menor peso")
+            print("Las aristas de menor peso son:")
             for i in range(len(aristaMenor)):
                 print ("{}--> {} peso {}".format(aristaMenor[i].getOrigen(), aristaMenor[i].getDestino() , aristaMenor[i].getPeso()))
 
     # 10)
-    def verticeAdyacente(self, vertice):
+    def verticeAdyacente(self):
         print("Ahora")
 
     # 11)
@@ -265,11 +282,12 @@ class Grafo:
         return lista
 
     def mostrarListaAdyacentes(self):
+        print("                                  LISTA ADYACENTES")
         lista = self.listaAdyacencias()
         for i in range(len(lista)):
             print(lista[i])
     # a)
-    def verticesNoComtempados(self, entorno, listaVertices, listaAdyacencias):
+    def verticesNoContemplados(self, entorno, listaVertices, listaAdyacencias):
         if entorno == 0:
             listaAdyacencias = self.listaAdyacencias()
             for i in range(len(self.listaVertices)):
@@ -279,10 +297,11 @@ class Grafo:
         for i in range(len(listaAdyacencias)):
             if self.listaVertices[entorno].getDato() == listaAdyacencias[i]:
                 listaVertices[entorno] = False
-        return self.verticesNoComtempados(entorno+1, listaVertices, listaAdyacencias)
+        return self.verticesNoContemplados(entorno+1, listaVertices, listaAdyacencias)
 
-    def mostrarVerticesNoComtempados(self):
-        listaVertices =self.verticesNoComtempados(0, [], [])
+    def mostrarVerticesNoContemplados(self):
+        print("                                  VERTICES NO CONTEMPLADOS")
+        listaVertices =self.verticesNoContemplados(0, [], [])
         for i in range(len(listaVertices)):
             if listaVertices[i]:
                 print(self.listaVertices[i].getDato())

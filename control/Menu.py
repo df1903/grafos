@@ -1,12 +1,8 @@
 """——————————————————————————————————————————————
     console method menu
 ——————————————————————————————————————————————"""
-# import sys, time, random
-# from data.Grafo import *
-# from helpers import
-from helpers.Keyboard import *
-import self
 
+from helpers.Keyboard import *
 from clases.Grafo import *
 
 
@@ -23,6 +19,8 @@ class Menu:
     def menuInicio(self):
 
         self.inicializarGrafo()
+        self.grafo_nociclos_conexo_dirigido()
+
         print('▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜\n' \
               '▌▓▒░     01. Iniciar     ░▒▓█▓▒░     02. Opciones     ░▒▓█▓▒░     03. Salir     ░▒▓▐\n' \
               '▙▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▟')
@@ -36,32 +34,31 @@ class Menu:
 
 
     def menuOpciones(self):
-        print(
-            "\nOPCIONES"
-            "\n01 — Ejecutar todos       02 — Mostrar aristas     03 — Ver vértices         04 — ¿Hay pozos?"
-            "\n05 — Generar vértice      06 — Ingresar arista      07 — Ver aristas          08 — ¿Hay fuentes?"
-            "\n09 — Generar arista       10 — ∙∙∙                  11 — ∙∙∙                  12 — ∙∙∙"
-            "\n13 — ¿Hay pozos?          14 — ¿Hay fuentes?        15 — Prom. peso Aristas   16 — ∙∙∙"
-            "\n13 — ¿Hay pozos?          14 — ¿Hay fuentes?        15 — ∙∙∙                  16 — ∙∙∙"
-            "\n13 — ¿Hay pozos?          14 — ¿Hay fuentes?        15 — ∙∙∙                  16 — ∙∙∙"
-            "\n13 — ¿Hay pozos?          14 — ¿Hay fuentes?        15 — ∙∙∙                  16 — ∙∙∙"
-            # ∙∙∙
-            "\n00 — Volver"
-        )
-        opcion = {
-            1: self.todosMetodos
-        }
-        i = Keyboard.readIntRangeDefaultErrorMessage("Ingrese una opcion: ", 1, 3)
-        opcion[i]()
+        while True:
+            print("▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄")
 
-        # self.menu_opciones()
+            print(
+                "\nOPCIONES"
+                "\n01 — Ejecutar todos              02 — Elejir grafo                   03 — Ver vértices           04 — Ver aristas"
+                "\n05 — Ver adyacencias             06 — Ver vértices de < a >          07 — Ver vértices de > a <  08 — Ver grados vertices"
+                "\n09 — Vértice mayor grado         10 — Ver promedio lista adyacencias 11 — Ver pozos              12 — Ver fuentes"
+                "\n13 — Ver promedio peso aristas   14 — Ver arista mayor peso          15 — Ver arista menor peso  16 — Ver vértice adyacente"
+                "\n17 — Ver lista adyacentes        18 — Ver vértices no contemplados   19 — Ver adyacia más comun  20 — Salir"
+                "\n00 — Volver"
+            )
+            opcion = {
+                1: self.ejecutar,                   2: self.tipoGrafo,                           3: self.grafo.mostrarVertices,          4: self.grafo.mostrarAristas,
+                5: self.grafo.mostrarAdyacencias,       6: self.minMaxAristas,                       7: self.maxMinAristas,                  8: self.grafo.mostrarGradoVertices,
+                9: self.grafo.verticeMayorGrado,        10: self.grafo.promedioListaAdyacencias,     11: self.grafo.mostrarPozos,            12: self.grafo.mostrarFuentes,
+                13: self.grafo.promedioPesoAristas,     14: self.grafo.aristaMayorPeso,              15: self.grafo.aristaMenorPeso,         16: self.grafo.verticeAdyacente,
+                17: self.grafo.mostrarListaAdyacentes,  18: self.grafo.mostrarVerticesNoContemplados,19: self.grafo.mostarAdyacenciaMasComun,20:self.salir
+            }
+            i = Keyboard.readIntRangeDefaultErrorMessage("Ingrese una opcion: ", 1, 20)
+            if i != 1:
+                print("▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄")
+            opcion[i]()
 
-    @staticmethod
-    def default():
-        print('Opción no disponible.')
-
-    @staticmethod
-    def salir():
+    def salir(self):
         s = '▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜\n' \
             '▌▓▓▒▒▒░                       ¡GRACIAS POR USAR EL PROGRAMA!                      ░▒▒▒▓▓▐\n' \
             '▌▓▓▒▒▒░                                                                           ░▒▒▒▓▓▐\n' \
@@ -78,18 +75,53 @@ class Menu:
     """——————————————————————01——————————————————————EJECUCIÓN———————————————————————————————————————————————————————"""
 
     def ejecutar(self):
-        self.menuInicio()
+        self.todosMetodos()
+        self.salir()
 
 
     def todosMetodos(self):
-        print("Todos los metodos\n")
+        print("▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄")
+        print("                                TODAS LAS FUNCIONES")
+        print("▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄")
         self.tipoGrafo()
+        print("▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄")
         self.grafo.mostrarVertices()
-
+        print("▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄")
+        self.grafo.mostrarAristas()
+        print("▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄")
+        self.grafo.mostrarAdyacencias()
+        print("▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄")
+        self.minMaxAristas()
+        print("▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄")
+        self.maxMinAristas()
+        print("▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄")
+        self.grafo.mostrarGradoVertices()
+        print("▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄")
+        self.grafo.verticeMayorGrado()
+        print("▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄")
+        self.grafo.promedioListaAdyacencias()
+        print("▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄")
+        self.grafo.mostrarPozos()
+        print("▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄")
+        self.grafo.mostrarFuentes()
+        print("▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄")
+        self.grafo.promedioPesoAristas()
+        print("▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄")
+        self.grafo.aristaMayorPeso()
+        print("▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄")
+        self.grafo.aristaMenorPeso()
+        print("▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄")
+        self.grafo.verticeAdyacente()
+        print("▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄")
+        self.grafo.mostrarListaAdyacentes()
+        print("▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄")
+        self.grafo.mostrarVerticesNoContemplados()
+        print("▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄")
+        self.grafo.mostarAdyacenciaMasComun()
 
     # graph type
     def tipoGrafo(self):
-        print("Tipos de Grafos"
+        print("                                    GRAFOS"
              "\n1) Grafo dirigido/sin ciclos/conexo     5) Grafo no dirigido/sin ciclos/conexo" 
              "\n2) Grafo dirigido/sin ciclos/no conexo  6) Grafo no dirigido/sin ciclos/no conexo" 
              "\n3) Grafo dirigido/con ciclos/conexo     7) Grafo no dirigido/con ciclos/conexo" 
@@ -104,6 +136,15 @@ class Menu:
         i = Keyboard.readIntRangeDefaultErrorMessage("Ingrese del tipo de grafo que desea crear: ", 1, 8)
         opcion[i]()
 
+    def minMaxAristas(self):
+        self.grafo.minMaxAristas(0)
+        print("                                  MENOR A MAYOR")
+        self.grafo.mostrarAristas()
+
+    def maxMinAristas(self):
+        self.grafo.maxMinAristas(0)
+        print("                                  MAYOR A MENOR")
+        self.grafo.mostrarAristas()
 
     """—————————————————————————————————————————————Grafos/Vertices——————————————————————————————————————————————————"""
 
