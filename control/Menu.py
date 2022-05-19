@@ -1,9 +1,13 @@
 """——————————————————————————————————————————————
-    Menú con métodos funcionales por consola.
+    console method menu
 ——————————————————————————————————————————————"""
 # import sys, time, random
 # from data.Grafo import *
 # from helpers import
+from helpers.Keyboard import *
+import self
+
+from clases.Grafo import *
 
 
 class Menu:
@@ -11,32 +15,30 @@ class Menu:
     """—————————————————————————————————————————————CONSTRUCTOR——————————————————————————————————————————————————————"""
 
     def __init__(self):
-        self.name = 'Grafito'
+        self.name = ''
         self.grafo = Grafo()
-        self.lista_vertices = self.grafo.get_lista_vertices()
-        self.lista_aristas = self.grafo.get_lista_aristas()
 
     """—————————————————————————————————————————————SALIDA-PANTALLA——————————————————————————————————————————————————"""
 
-    def menu_inicio(self):
-        """
-        Inicio en selección de opciones.
-        :return: salir será la salida estándar.
-        """
+    def menuInicio(self):
+
+        self.inicializarGrafo()
         print('▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜\n' \
               '▌▓▒░     01. Iniciar     ░▒▓█▓▒░     02. Opciones     ░▒▓█▓▒░     03. Salir     ░▒▓▐\n' \
               '▙▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▟')
 
-        o = {
-            1: self.ejecutar, 2: self.menu_opciones, 3: self.salir
+        opcion = {
+            1: self.ejecutar, 2: self.menuOpciones, 3: self.salir
         }
-#        i = Helpers.read_int("Ingrese una opción: ", "Opción inválida.", 1, 3)
-#        o[i]()
+        i = Keyboard.readIntRangeDefaultErrorMessage("Ingrese una opcion: ", 1, 3)
+        opcion[i]()
 
-    def menu_opciones(self):
+
+
+    def menuOpciones(self):
         print(
             "\nOPCIONES"
-            "\n01 — Run Time!            02 — Ingresar vértice     03 — Ver vértices         04 — ¿Hay pozos?"
+            "\n01 — Ejecutar todos       02 — Mostrar aristas     03 — Ver vértices         04 — ¿Hay pozos?"
             "\n05 — Generar vértice      06 — Ingresar arista      07 — Ver aristas          08 — ¿Hay fuentes?"
             "\n09 — Generar arista       10 — ∙∙∙                  11 — ∙∙∙                  12 — ∙∙∙"
             "\n13 — ¿Hay pozos?          14 — ¿Hay fuentes?        15 — Prom. peso Aristas   16 — ∙∙∙"
@@ -46,17 +48,13 @@ class Menu:
             # ∙∙∙
             "\n00 — Volver"
         )
-        o = {
-            1: self.ejecutar,          2: self.ingresar_vertice,  3: self.mostrar_vertices,  4: self.hay_pozos,
-            5: self.generar_vertice,   6: self.ingresar_aristas,  7: self.mostrar_aristas,   8: self.hay_fuentes,
-            9: self.default,          10: self.default,          11: self.default,          12: self.default,
-            # ∙∙∙
-            0: self.menu_inicio
+        opcion = {
+            1: self.todosMetodos
         }
-        i = Helpers.read_int('Ingrese una opción: ', 'Opción inválida.', 0, 16)
-        o[i]()
+        i = Keyboard.readIntRangeDefaultErrorMessage("Ingrese una opcion: ", 1, 3)
+        opcion[i]()
 
-        self.menu_opciones()
+        # self.menu_opciones()
 
     @staticmethod
     def default():
@@ -69,122 +67,207 @@ class Menu:
             '▌▓▓▒▒▒░                                                                           ░▒▒▒▓▓▐\n' \
             '▌▓▓▒▒▒░                             Desarrollado por:                             ░▒▒▒▓▓▐\n' \
             '▌▓▓▒▒▒░                                                                           ░▒▒▒▓▓▐\n' \
-            '▌▓▓▒▒▒░                      Over Haider Castrillón Valencia.                     ░▒▒▒▓▓▐\n' \
+            '▌▓▓▒▒▒░                      Daniel Felipe Franco Rincon                          ░▒▒▒▓▓▐\n' \
             '▙▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▟'
         print(s)
         sys.exit()
 
-    """—————————————————————————————————————————————MÉTODOS——————————————————————————————————————————————————————————"""
-
-    """———— ∙ ∙ ∙ ∙
-        Vértices
-    ∙ ∙ ∙ ∙ ————"""
-    def ingresar_vertice(self):
-        dato = input('Dato del vértice: ')
-        self.grafo.ingresar_vertice(dato)
-
-    def mostrar_vertices(self):
-        self.grafo.mostrar_vertices()
-
-    def obtener_vertice(self):
-        origen = input('Origen: ')
-        lista = []
-        self.grafo.obtener_vertice(origen, lista)
-
-        print('Lista [vértices]: ', lista)
-
-    def generar_vertice(self):
-        a = random.randint(65, 100)
-        a = random.randint(65, 100)
-        a = random.randint(65, 100)
-
-        print(chr(65))
-        print(chr(100))
-
-    """———— ∙ ∙ ∙ ∙
-        Aristas
-    ∙ ∙ ∙ ∙ ————"""
-    def ingresar_aristas(self):
-        origen = input('Origen de la arista: ')
-        destino = input('Destino de la arista: ')
-        peso = input('Peso de la arista: ')
-        ok = self.grafo.ingresar_arista(origen, destino, peso)
-        if not ok:
-            print('No se creó la arista.')
-
-    def mostrar_aristas(self):
-        print('Lista de aristas:')
-        self.grafo.mostrar_aristas()
-
-    """———— ∙ ∙ ∙
-        Extras
-    ∙ ∙ ∙ ————"""
-    def hay_pozos(self):
-        lista_vertices = self.grafo.get_lista_vertices()
-
-        for i in range(len(lista_vertices)):
-            if not lista_vertices[i].get_lista_adyacentes():
-                return print("Pozo --> {0}".format(lista_vertices[i].get_dato()))
-        return print("El grafo no tiene Pozos")
-
-    def hay_fuentes(self):
-        lista_vertices = self.lista_vertices
 
 
-        for i in range(len(lista_vertices)):
-            if lista_vertices[i].get_lista_adyacentes():
-                return print("Fuente --> {0}".format(lista_vertices[i].get_dato()))
-        return print("El grafo no tiene Fuentes")
-
-        # determina el camino a recorrer
-    def caminoRandom(self, padre, camion):
-        i = random.randint(1, 3)
-        # recorridos = {1: self.isla.recorrePre, 2: self.isla.recorreIn , 3: self.isla.recorrePos}
-        # if i == 0:
-        #     print('▌▓▒░    Camión no.', camion.getID(), 'recorre en Pre-Orden.')
-        # elif i == 1:
-        #     print('▌▓▒░    Camión no.', camion.getID(), 'recorre en In-Orden.')
-        # else:
-        #     print('▌▓▒░    Camión no.', camion.getID(), 'recorre en Pos-Orden.')
-        # return recorridos[i](self.isla.getRaiz(), camion)
 
     """——————————————————————01——————————————————————EJECUCIÓN———————————————————————————————————————————————————————"""
 
     def ejecutar(self):
-
-        print('▌▓▒░    Inicio ∙∙∙')
-
-        """———— ∙ ∙ ∙ ∙ ∙ ∙ ∙ ∙
-            Variables iniciales
-        ∙ ∙ ∙ ∙ ∙ ∙ ∙ ∙ ————"""
-        cuevasNuevas = 0
-        timer = 0
-        seg = [1, 1, 2, 5, 10]
-
-        # Ingreso de la velocidad
-        print('▌▓▒░    Velocidad de ejecución    ▌▓▒░    '
-              '01. Reloj [1s]    ▌▓▒░    02. Normal [2s]    ▌▓▒░    '
-              '03. Rápido [5s]    ▌▓▒░    04. Parcial [10s]    ▌▓▒░')
-        i = Helpers.read_int('Escoja una opción: ', 'Ingrese una velocidad correcta', 1, 4)
-
-        # Ingreso tiempo
-        limit = Helpers.read_int('Límite de tiempo: ', 'Ingrese un valor correcto', seg[i], sys.maxsize)
-
-        self.crearCamiones(Helpers.read_int('Ingrese el numero de camiones: ', 'Ingrese un valor correcto', 1, sys.maxsize))
-        # self.crearCamiones(10)
-
-        self.crearCuevas(Helpers.read_int('Ingrese el numero de cuevas: ', 'Ingrese un valor correcto', 1, sys.maxsize))
+        self.menuInicio()
 
 
-        while timer >= 0:
-            print('\n▌▓▒░    TIEMPO:', timer, 'SEGUNDOS—————————————————————————————————————————————————————————————————————')
+    def todosMetodos(self):
+        print("Todos los metodos\n")
+        self.tipoGrafo()
+        self.grafo.mostrarVertices()
 
-            # Tiempo incremental y salida del programa.
-            time.sleep(seg[i]/seg[i-1])
-            timer += seg[i]
-            if timer > limit:
-                break
 
-        self.salir()
+    # graph type
+    def tipoGrafo(self):
+        print("Tipos de Grafos"
+             "\n1) Grafo dirigido/sin ciclos/conexo     5) Grafo no dirigido/sin ciclos/conexo" 
+             "\n2) Grafo dirigido/sin ciclos/no conexo  6) Grafo no dirigido/sin ciclos/no conexo" 
+             "\n3) Grafo dirigido/con ciclos/conexo     7) Grafo no dirigido/con ciclos/conexo" 
+             "\n4) Grafo dirigido/con ciclos/no conexo  8) Grafo nodirigido/con ciclos/no conexo "
+             )
+        opcion = {
+            1: self.grafo_nociclos_conexo_dirigido, 5: self.grafo_nociclos_conexo_nodirigido,
+            2: self.grafo_nociclos_noconexo_dirigido, 6: self.grafo_nociclos_noconexo_nodirigido,
+            3: self.grafo_ciclos_conexo_dirigido, 7: self.grafo_ciclos_conexo_nodirigido,
+            4: self.grafos_ciclos_noconexo_dirigido, 8: self.grafos_ciclos_noconexo_nodirigido
+        }
+        i = Keyboard.readIntRangeDefaultErrorMessage("Ingrese del tipo de grafo que desea crear: ", 1, 8)
+        opcion[i]()
 
-    """——————————————————————01——————————————————————Terminado———————————————————————————————————————————————————————"""
+
+    """—————————————————————————————————————————————Grafos/Vertices——————————————————————————————————————————————————"""
+
+    def inicializarGrafo(self):
+        # creation of vertices
+        self.grafo.ingresarVertice('Manizales')
+        self.grafo.ingresarVertice('Pereira')
+        self.grafo.ingresarVertice('Armenia')
+        self.grafo.ingresarVertice('Cali')
+        self.grafo.ingresarVertice('Bogota')
+        self.grafo.ingresarVertice('Cututa')
+        self.grafo.ingresarVertice('Barranquilla')
+        self.grafo.ingresarVertice('Cartagena')
+        self.grafo.ingresarVertice('Medellin')
+
+    """———————————————————————————————————————————————Grafos/Aristas—————————————————————————————————————————————————"""
+
+    # graph_nocycles_connected_directed
+    def grafo_nociclos_conexo_dirigido(self):
+        self.grafo.setListaAristas([])
+        self.name = "grafo/dirigido/conexo/sin ciclos"
+        self.grafo.ingresarArista('Manizales','Pereira',1)
+        self.grafo.ingresarArista('Manizales', 'Bogota', 8)
+        self.grafo.ingresarArista('Manizales', 'Medellin', 4)
+        self.grafo.ingresarArista('Pereira','Armenia',3)
+        self.grafo.ingresarArista('Armenia','Cali',4)
+        self.grafo.ingresarArista('Armenia','Bogota',3)
+        self.grafo.ingresarArista('Medellin','Bogota',4)
+        self.grafo.ingresarArista('Bogota','Cututa',7)
+        self.grafo.ingresarArista('Bogota','Cartagena',6)
+        self.grafo.ingresarArista('Cartagena','Barranquilla',1)
+        self.grafo.ingresarArista('Barranquilla','Cututa',12)
+
+    # graph_no cycles_no connected_directed
+    def grafo_nociclos_noconexo_dirigido(self):
+        self.grafo.setListaAristas([])
+        self.name = "grafo/dirigido/no conexo/sin ciclos"
+        self.grafo.ingresarArista('Manizales', 'Pereira', 1)
+        self.grafo.ingresarArista('Manizales', 'Bogota', 8)
+        self.grafo.ingresarArista('Manizales', 'Medellin', 4)
+        self.grafo.ingresarArista('Pereira', 'Armenia', 3)
+        self.grafo.ingresarArista('Armenia', 'Cali', 4)
+        self.grafo.ingresarArista('Armenia', 'Bogota', 3)
+        self.grafo.ingresarArista('Medellin', 'Bogota', 4)
+        self.grafo.ingresarArista('Cartagena', 'Barranquilla', 1)
+        self.grafo.ingresarArista('Barranquilla', 'Cututa', 12)
+
+    # graph_cycles_connected_directed
+    def grafo_ciclos_conexo_dirigido(self):
+        self.grafo.setListaAristas([])
+        self.name = "grafo/dirigido/conexo/ciclos"
+        self.grafo.ingresarArista('Manizales','Pereira',1)
+        self.grafo.ingresarArista('Bogota','Manizales', 8)
+        self.grafo.ingresarArista('Manizales','Medellin',4)
+        self.grafo.ingresarArista('Pereira','Armenia',3)
+        self.grafo.ingresarArista('Armenia','Cali',4)
+        self.grafo.ingresarArista('Armenia','Bogota',3)
+        self.grafo.ingresarArista('Medellin','Bogota',4)
+        self.grafo.ingresarArista('Bogota','Cututa',7)
+        self.grafo.ingresarArista('Bogota','Cartagena',6)
+        self.grafo.ingresarArista('Cartagena','Barranquilla',1)
+        self.grafo.ingresarArista('Barranquilla','Cututa',12)
+
+    # graph_cycles_no connected_directed
+    def grafos_ciclos_noconexo_dirigido(self):
+        self.grafo.setListaAristas([])
+        self.name = "grafo/dirigido/no conexo/ciclos"
+        self.grafo.ingresarArista('Manizales','Pereira',1)
+        self.grafo.ingresarArista('Bogota','Manizales',8)
+        self.grafo.ingresarArista('Manizales','Medellin',4)
+        self.grafo.ingresarArista('Pereira','Armenia',3)
+        self.grafo.ingresarArista('Armenia','Cali',4)
+        self.grafo.ingresarArista('Armenia','Bogota',3)
+        self.grafo.ingresarArista('Medellin','Bogota',4)
+        self.grafo.ingresarArista('Cututa','Cartagena',13)
+        self.grafo.ingresarArista('Cartagena','Barranquilla',1)
+        self.grafo.ingresarArista('Barranquilla','Cututa',12)
+
+    # graph_cycles_connected_no directed
+    def grafo_ciclos_conexo_nodirigido(self):
+        self.grafo.setListaAristas([])
+        self.name = "grafo/no dirigido/conexo/ciclos"
+        self.grafo.ingresarArista('Manizales','Pereira',1)
+        self.grafo.ingresarArista('Pereira','Manizales',1)
+        self.grafo.ingresarArista('Manizales','Bogota',8)
+        self.grafo.ingresarArista('Bogota','Manizales',8)
+        self.grafo.ingresarArista('Manizales','Medellin',4)
+        self.grafo.ingresarArista('Medellin','Manizales',4)
+        self.grafo.ingresarArista('Pereira','Armenia',3)
+        self.grafo.ingresarArista('Armenia', 'Pereira',3)
+        self.grafo.ingresarArista('Armenia','Cali',4)
+        self.grafo.ingresarArista('Cali','Armenia',4)
+        self.grafo.ingresarArista('Armenia','Bogota',3)
+        self.grafo.ingresarArista('Bogota','Armenia',3)
+        self.grafo.ingresarArista('Medellin','Bogota',4)
+        self.grafo.ingresarArista('Bogota','Medellin',4)
+        self.grafo.ingresarArista('Bogota','Cututa',7)
+        self.grafo.ingresarArista('Cututa','Bogota',7)
+        self.grafo.ingresarArista('Bogota','Cartagena',6)
+        self.grafo.ingresarArista('Cartagena','Bogota',6)
+        self.grafo.ingresarArista('Cartagena','Barranquilla',1)
+        self.grafo.ingresarArista('Barranquilla','Cartagena',1)
+        self.grafo.ingresarArista('Barranquilla','Cututa',12)
+        self.grafo.ingresarArista('Cututa','Barranquilla',12)
+
+    # graph_cycles_no connected_no directed
+    def grafos_ciclos_noconexo_nodirigido(self):
+        self.grafo.setListaAristas([])
+        self.name = "grafo/no dirigido/no conexo/ciclos"
+        self.grafo.ingresarArista('Manizales','Pereira',1)
+        self.grafo.ingresarArista('Pereira','Manizales',1)
+        self.grafo.ingresarArista('Manizales','Bogota',8)
+        self.grafo.ingresarArista('Bogota','Manizales',8)
+        self.grafo.ingresarArista('Manizales','Medellin',4)
+        self.grafo.ingresarArista('Medellin','Manizales',4)
+        self.grafo.ingresarArista('Pereira','Armenia',3)
+        self.grafo.ingresarArista('Armenia', 'Pereira',3)
+        self.grafo.ingresarArista('Armenia','Cali',4)
+        self.grafo.ingresarArista('Cali','Armenia',4)
+        self.grafo.ingresarArista('Armenia','Bogota',3)
+        self.grafo.ingresarArista('Bogota','Armenia',3)
+        self.grafo.ingresarArista('Medellin','Bogota',4)
+        self.grafo.ingresarArista('Bogota','Medellin',4)
+        self.grafo.ingresarArista('Cartagena','Barranquilla',1)
+        self.grafo.ingresarArista('Barranquilla','Cartagena',1)
+        self.grafo.ingresarArista('Barranquilla','Cututa',12)
+        self.grafo.ingresarArista('Cututa','Barranquilla',12)
+
+    # graph_no cycles_connected_no directed
+    def grafo_nociclos_conexo_nodirigido(self):
+        self.grafo.setListaAristas([])
+        self.name = "grafo/no dirigido/conexo/sin ciclos"
+        self.grafo.ingresarArista('Manizales','Pereira',1)
+        self.grafo.ingresarArista('Pereira','Manizales',1)
+        self.grafo.ingresarArista('Manizales','Bogota',8)
+        self.grafo.ingresarArista('Bogota','Manizales',8)
+        self.grafo.ingresarArista('Manizales','Medellin',4)
+        self.grafo.ingresarArista('Medellin','Manizales',4)
+        self.grafo.ingresarArista('Pereira','Armenia',3)
+        self.grafo.ingresarArista('Armenia', 'Pereira',3)
+        self.grafo.ingresarArista('Armenia','Cali',4)
+        self.grafo.ingresarArista('Cali','Armenia',4)
+        self.grafo.ingresarArista('Bogota','Cartagena',4)
+        self.grafo.ingresarArista('Cartagena','Bogota',6)
+        self.grafo.ingresarArista('Cartagena','Barranquilla',1)
+        self.grafo.ingresarArista('Barranquilla','Cartagena',1)
+        self.grafo.ingresarArista('Barranquilla','Cututa',12)
+        self.grafo.ingresarArista('Cututa','Barranquilla',12)
+
+    # graph_no cycles_no connected_no directed
+    def grafo_nociclos_noconexo_nodirigido(self):
+        self.grafo.setListaAristas([])
+        self.name = "grafo/no dirigido/no conexo/sin ciclos"
+        self.grafo.ingresarArista('Manizales','Pereira',1)
+        self.grafo.ingresarArista('Pereira','Manizales',1)
+        self.grafo.ingresarArista('Manizales','Bogota',8)
+        self.grafo.ingresarArista('Bogota','Manizales',8)
+        self.grafo.ingresarArista('Manizales','Medellin',4)
+        self.grafo.ingresarArista('Medellin','Manizales',4)
+        self.grafo.ingresarArista('Pereira','Armenia',3)
+        self.grafo.ingresarArista('Armenia', 'Pereira',3)
+        self.grafo.ingresarArista('Armenia','Cali',4)
+        self.grafo.ingresarArista('Cali','Armenia',4)
+        self.grafo.ingresarArista('Cartagena','Barranquilla',1)
+        self.grafo.ingresarArista('Barranquilla','Cartagena',1)
+        self.grafo.ingresarArista('Barranquilla','Cututa',12)
+        self.grafo.ingresarArista('Cututa','Barranquilla',12)

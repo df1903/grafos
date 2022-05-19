@@ -44,8 +44,9 @@ class Grafo:
 
     # show Vertices
     def mostrarVertices(self):
+        print("VERTICES\n")
         for i in range(len(self.listaVertices)):
-            print("{0}".format(self.listaVertices[i].getDato()))
+            print(i, "- {0}".format(self.listaVertices[i].getDato()))
         # return False
 
     # get Vertex

@@ -14,6 +14,16 @@ class Keyboard:
                 print('▌▓▒░    ' + errorMessage)
         return value
 
+    # integer input (default with default error message)
+    def readIntDefaultErrorMessage(inputMessage):
+        while True:
+            try:
+                value = int(input('▌▓▒░    ' + inputMessage))
+                break
+            except:
+                print('▌▓▒░    Ingrese un valor correcto')
+        return value
+
     # integer input (range)
     def readIntRange(inputMessage, errorMessage, minValue, maxValue):
         while True:
@@ -25,6 +35,19 @@ class Keyboard:
                     break
             except:
                 print('▌▓▒░    ' + errorMessage)
+        return value
+
+    # integer input (range with default error message)
+    def readIntRangeDefaultErrorMessage(inputMessage, minValue, maxValue):
+        while True:
+            try:
+                value = int(input('▌▓▒░    ' + inputMessage))
+                if value < minValue or value > maxValue:
+                    raise
+                else:
+                    break
+            except:
+                print('▌▓▒░    Ingrese un valor correcto')
         return value
 
     # boolean input
