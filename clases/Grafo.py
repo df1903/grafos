@@ -1,6 +1,7 @@
 """————————————————
    Grafo class
 ———————————————————"""
+from copy import copy #para realizar copias de objetos
 import sys
 from clases.Arista import *
 from clases.Vertice import *
@@ -326,3 +327,100 @@ class Grafo:
             if listaVertices[i] > comun:
                 comun = i
         print("La adyacencia mas comun es {} con {} ".format(self.listaVertices[comun].getDato(), listaVertices[comun]))
+
+
+
+
+    #Algorithms
+    def caminoMasCorto(self, origen, destino):
+        verticesAux = []
+        verticesD = []
+        caminos = self.dijkstra(origen, verticesAux)
+        cont = 0
+        for i in caminos:
+            print("La distancia mínima a " + self.listaVertices[cont].getDato() + " es " + str(i))
+            cont += 1
+
+        self.rutas(verticesD, verticesAux, destino, origen)
+        print("El camino más corto de " + origen + " a " + destino + " es: ")
+        print(verticesD)
+
+    def dijkstra(self, origen, verticesAux):
+        visitados = []  # lista de visitados
+        caminos = []  # recorrido final
+
+        for v in self.listaVertices:  # iniciar los valores en infinito
+            caminos.append(float("inf"))
+            visitados.append(False)
+            verticesAux.append(None)
+
+            if v.getDato() is origen:
+                caminos[self.listaVertices.index(v)] = 0 # En la Posicion que este el vertice origen en esa posicion en caminos lo deja 0 y no inf
+                verticesAux[self.listaVertices.index(v)] = v.getDato()# En la Posicion que este el vertice origen en esa posicion en vertices aux lo deja el nombre y no none
+        while not self.todosVisitados(visitados):
+            menorAux = self.menorNoVisitado(caminos, visitados)  # obtiene el menor no visitado
+            if menorAux is None:
+                break
+            indice = self.listaVertices.index(menorAux)  # indice del menor no marcado
+            visitados[indice] = True
+            valorActual = caminos[indice]
+
+            for adyacencia in menorAux.getListaAdyacentes():
+                indiceNuevo = self.listaVertices.index(self.obtenerVertice(adyacencia, self.listaVertices))
+                arista = self.verificarArista(menorAux.getDato(), adyacencia)
+                if caminos[indiceNuevo] > valorActual + arista.getPeso():
+                    caminos[indiceNuevo] = valorActual + arista.getPeso()
+                    verticesAux[indiceNuevo] = self.listaVertices[indice].getDato()
+        return caminos
+
+    def verificarArista(self, origen, destino):
+        for i in range(len(self.listaAristas)):
+            if origen == self.listaAristas[i].getOrigen() and destino == self.listaAristas[i].getDestino():
+                ##print("origen " + self.ListaAristas[i].getOrigen() + "destino " + self.ListaAristas[i].getDestino() + "peso: " + str(self.ListaAristas[i].getPeso()))
+                return self.listaAristas[i]
+
+        return None
+
+    def todosVisitados(self, visitados):
+        for vertice in visitados:
+            if vertice is False:
+                return False
+
+        return True
+
+    def menorNoVisitado(self, caminos, visitados):
+        verticeMenor = None
+        caminosAux = sorted(caminos)  # de menor a mayor
+
+        copiaCaminos = copy(caminos)
+        bandera = True
+        cont = 0
+
+        while bandera:
+            menor = caminosAux[cont]
+
+            if visitados[copiaCaminos.index(menor)] == False:
+                verticeMenor = self.listaVertices[copiaCaminos.index(menor)]
+                bandera = False
+
+            else:
+                copiaCaminos[copiaCaminos.index(menor)] = "x"
+                cont += 1
+
+        return verticeMenor
+
+    def rutas(self, verticesD, verticesAux, destino, origen):
+        verticeDestino = self.obtenerVertice(destino, self.listaVertices)
+        indice = self.listaVertices.index(verticeDestino)
+
+        if verticesAux[indice] is None:
+            print("No hay camino entre: ", (origen, destino))
+            return
+        aux = destino
+
+        while aux is not origen:
+            verticeDestino = self.obtenerVertice(aux, self.listaVertices)
+            indice = self.listaVertices.index(verticeDestino)
+            verticesD.insert(0, aux)
+            aux = verticesAux[indice]
+        verticesD.insert(0, aux)

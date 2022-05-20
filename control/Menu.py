@@ -19,7 +19,10 @@ class Menu:
     def menuInicio(self):
 
         self.inicializarGrafo()
-        self.grafo_nociclos_conexo_dirigido()
+        # self.grafo_nociclos_conexo_nodirigido()
+        self.grafo_ciclos_conexo_nodirigido()
+
+        # self.grafo.caminoMasCorto("Cali", "Barranquilla")
 
         print('▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜\n' \
               '▌▓▒░     01. Iniciar     ░▒▓█▓▒░     02. Opciones     ░▒▓█▓▒░     03. Salir     ░▒▓▐\n' \
@@ -150,9 +153,9 @@ class Menu:
 
     def inicializarGrafo(self):
         # creation of vertices
-        self.grafo.ingresarVertice('Manizales')
         self.grafo.ingresarVertice('Pereira')
         self.grafo.ingresarVertice('Armenia')
+        self.grafo.ingresarVertice('Manizales')
         self.grafo.ingresarVertice('Cali')
         self.grafo.ingresarVertice('Bogota')
         self.grafo.ingresarVertice('Cututa')

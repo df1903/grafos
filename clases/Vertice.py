@@ -12,7 +12,7 @@ class Vertice:
 
     # Set - Get | dato
     def getDato(self):
-        return self.dato
+            return self.dato
 
     def setDato(self,dato):
         self.dato = dato
