@@ -20,7 +20,8 @@ class Menu:
 
         self.inicializarGrafo()
         # self.grafo_nociclos_conexo_nodirigido()
-        self.grafo_ciclos_conexo_nodirigido()
+        self.grafo_ciclos_conexo_dirigido()
+        self.grafo.prim("Manizales")
 
         # self.grafo.caminoMasCorto("Cali", "Barranquilla")
 
