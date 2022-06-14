@@ -1,12 +1,13 @@
 """————————————————
    Grafo class
 ———————————————————"""
-from copy import copy #para realizar copias de objetos
+# from copy import copy #para realizar copias de objetos
 import sys
 from clases.Arista import *
 from clases.Vertice import *
-from typing import List
-from collections import deque
+import json
+# from typing import List
+# from collections import deque
 
 class Grafo:
 

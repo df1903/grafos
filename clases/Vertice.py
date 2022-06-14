@@ -1,12 +1,19 @@
 """————————————————
    Vertice class
 ———————————————————"""
+
+import json
 class Vertice:
 
     # builder
     def __init__(self, dato):
         self.dato = dato
         self.listaAdyacentes = []
+
+    def from_json(json_string):
+        json.loads(json_string)
+        rre
+
 
     """————————————————————————————————————————————GETS | SETS————————————————————————————————————————————————————"""
 
